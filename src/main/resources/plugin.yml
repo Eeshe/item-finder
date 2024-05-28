@@ -1,0 +1,13 @@
+main: me.eeshe.itemfinder.ItemFinder
+name: ItemFinder
+version: ${project.version}
+author: Eeshe
+depend: [ PenPenLib ]
+softdepend: [ WorldGuard ]
+api-version: 1.13
+folia-supported: true
+
+commands:
+  itemfinder:
+    aliases:
+      - if
