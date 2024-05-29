@@ -4,7 +4,7 @@ version: ${project.version}
 author: Eeshe
 depend: [ PenPenLib ]
 softdepend: [ WorldGuard ]
-api-version: 1.19.4
+api-version: 1.19
 folia-supported: true
 
 commands:
