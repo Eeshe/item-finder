@@ -5,6 +5,7 @@ import me.eeshe.itemfinder.models.config.Particle;
 import me.eeshe.penpenlib.models.Scheduler;
 import me.eeshe.penpenlib.util.LocationUtil;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 public class ParticleUtil {
@@ -25,6 +26,26 @@ public class ParticleUtil {
         for (Location location : LocationUtil.calculateLocationsBetween(source, destination, points)) {
             Scheduler.runLater(ItemFinder.getInstance(), location, () -> particle.spawn(player, location), delay);
             delay += delayIncrementTicks;
+        }
+    }
+
+    /**
+     * Spawns the passed particle as circle at the passed location.
+     *
+     * @param center   Center of the circle.
+     * @param radius   Radius of the circle.
+     * @param amount   Amount of particles forming the circle.
+     * @param particle Particle to spawn.
+     */
+    public static void spawnParticleCircle(Location center, double radius, int amount, Particle particle) {
+        double increment = (2 * Math.PI) / amount;
+        World world = center.getWorld();
+        for (int i = 0; i < amount; i++) {
+            double angle = i * increment;
+            double x = center.getX() + (radius * Math.cos(angle));
+            double z = center.getZ() + (radius * Math.sin(angle));
+
+            particle.spawn(new Location(world, x, center.getY(), z));
         }
     }
 }

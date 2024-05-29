@@ -20,11 +20,14 @@ import me.eeshe.penpenlib.util.StringUtil;
 import org.bukkit.*;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Container;
+import org.bukkit.block.ShulkerBox;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BlockStateMeta;
 
 import java.util.*;
 
@@ -206,7 +209,22 @@ public class CommandSearch extends PenCommand {
         ItemSearchEvent itemSearchEvent = new ItemSearchEvent(player, itemType, nearInventories);
         Bukkit.getPluginManager().callEvent(itemSearchEvent);
 
-        nearInventories.removeIf(inventory -> !inventory.contains(itemType));
+        nearInventories.removeIf(inventory -> {
+            for (ItemStack item : inventory) {
+                if (item == null) continue;
+                if (item.getItemMeta() instanceof BlockStateMeta blockStateMeta) {
+                    if (!(blockStateMeta.getBlockState() instanceof ShulkerBox shulkerBox)) continue;
+                    if (!shulkerBox.getInventory().contains(itemType)) continue;
+
+                    return false;
+                }
+                if (item.getType() != itemType) continue;
+
+                return false;
+            }
+            // The inventory doesn't have the item
+            return true;
+        });
     }
 
     /**
@@ -225,7 +243,7 @@ public class CommandSearch extends PenCommand {
         Particle outlineParticle = Particle.ITEM_FOUND_OUTLINE;
         Particle trailParticle = Particle.ITEM_FOUND_TRAIL;
         int effectIterations = ((ItemFinder) getPlugin()).getMainConfig().getItemFoundEffectIterations();
-        Scheduler.Task containerHighlightTask = Scheduler.runTimer(getPlugin().getSpigotPlugin(), new Runnable() {
+        Scheduler.Task containerHighlightTask = Scheduler.runTimer(getPlugin().getSpigotPlugin(), player.getLocation(), new Runnable() {
             private int iterations = 0;
 
             @Override
@@ -240,14 +258,18 @@ public class CommandSearch extends PenCommand {
                     Location inventoryLocation = inventory.getLocation();
                     if (inventoryLocation == null) continue;
 
-                    inventoryLocation.add(0.5, 0.5, 0.5);
-
                     Location headLocation = player.getEyeLocation();
                     headLocation.add(headLocation.getDirection().multiply(2));
 
+                    if (inventoryLocation.getBlock().getState() instanceof Container) {
+                        inventoryLocation.add(0.5, 0.5, 0.5);
+                        BlockOutlineUtil.spawnBlockOutline(player, inventoryLocation.getBlock(), outlineParticle);
+                    } else {
+                        inventoryLocation.add(0, 1, 0);
+                        ParticleUtil.spawnParticleCircle(inventoryLocation, 1, 20, outlineParticle);
+                    }
                     ParticleUtil.spawnParticleLine(player, headLocation, inventoryLocation, trailParticle,
-                            (int) inventoryLocation.distance(playerLocation), 0L);
-                    BlockOutlineUtil.spawnBlockOutline(player, inventoryLocation.getBlock(), outlineParticle);
+                            (int) inventoryLocation.distance(playerLocation), 1L);
                     Sound.ITEM_FOUND.play(player, inventoryLocation);
                 }
                 iterations += 1;
