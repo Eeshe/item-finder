@@ -32,6 +32,10 @@ ItemFinder is a plugin created to ease the search for items within all near cont
 Messages, sounds and particles from the plugin are also configurable. For instructions for how to configure this,
 check the [PenPenLib](https://github.com/Eeshe/pen-pen-lib) guide.
 
+## Demonstration
+
+https://github.com/Eeshe/item-finder/assets/75171906/3a84005b-1673-4cb9-b8d0-b8f208264c59
+
 ## Dependencies
 
 - [PenPenLib](https://github.com/Eeshe/pen-pen-lib).
