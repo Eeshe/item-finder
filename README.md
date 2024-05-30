@@ -19,9 +19,9 @@ ItemFinder is a plugin created to ease the search for items within all near cont
 
 ## Configurations
 
-| ***Configuration**            | **Description**                                                                                                                                    | **Example**                                     |
+| **Configuration**            | **Description**                                                                                                                                    | **Example**                                     |
 |-------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------|
-| item-blacklist                | List of items that can't be searched through the `/itemfinder search` command.                                                                     | item-blacklist: <br/>- ENCHANTED_GOLDEN_APPLE   |
+| item-blacklist                | List of items that can't be searched through the `/itemfinder search` command.                                                                     | item-blacklist: <br/>- GOLDEN_APPLE             |
 | world-blacklist               | List of worlds the `/itemfinder search` command can't be used in.                                                                                  | world-blacklist: <br/>- world_the_end           |
 | region-blacklist              | List of WorldGuard regions the `/itemfinder search` command can't be used in.                                                                      | region-blacklist: <br/>- region1 <br/>- region2 |
 | search-radius                 | Radius (in blocks) around the player where items will be searched.                                                                                 | search-radius: 10                               |
