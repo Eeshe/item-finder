@@ -34,7 +34,7 @@ check the [PenPenLib](https://github.com/Eeshe/pen-pen-lib) guide.
 
 ## Demonstration
 
-https://github.com/Eeshe/item-finder/assets/75171906/3a84005b-1673-4cb9-b8d0-b8f208264c59
+https://github.com/Eeshe/item-finder/assets/75171906/a7d31383-0312-4fd1-9b41-b72301b02c31
 
 ## Dependencies
 
