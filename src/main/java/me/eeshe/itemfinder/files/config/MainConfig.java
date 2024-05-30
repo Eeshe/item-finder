@@ -66,9 +66,9 @@ public class MainConfig extends ConfigWrapper {
         config.addDefault(SEARCH_RADIUS_PATH, 10);
 
         config.setComments(SEARCHED_CHUNKS_PER_TICK_PATH, List.of("Amount of chunks that will be searched for items per tick.", "The higher the amount the fastest the search and the highest the impact on the server."));
-        config.addDefault(SEARCHED_CHUNKS_PER_TICK_PATH, 9);
+        config.addDefault(SEARCHED_CHUNKS_PER_TICK_PATH, 15);
 
-        config.setComments(ITEM_FOUND_EFFECTS_ITERATIONS_PATH, List.of("Amount of times the item found particles will be shown on chests with the searched item."));
+        config.setComments(ITEM_FOUND_EFFECTS_ITERATIONS_PATH, List.of("Amount of times the item found particles will be shown on containers with the searched item."));
         config.addDefault(ITEM_FOUND_EFFECTS_ITERATIONS_PATH, 5);
 
         config.setComments(SEARCH_COOLDOWN_PATH, List.of("Time (in seconds) between each item search."));
