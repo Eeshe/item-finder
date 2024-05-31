@@ -3,7 +3,7 @@ name: ItemFinder
 version: ${project.version}
 author: Eeshe
 depend: [ PenPenLib ]
-softdepend: [ WorldGuard ]
+softdepend: [ WorldGuard, GriefPrevention ]
 api-version: 1.19
 folia-supported: true
 

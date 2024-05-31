@@ -17,6 +17,10 @@ import me.eeshe.penpenlib.models.Scheduler;
 import me.eeshe.penpenlib.models.config.CommonMessage;
 import me.eeshe.penpenlib.models.config.CommonSound;
 import me.eeshe.penpenlib.util.StringUtil;
+import me.ryanhamshire.GriefPrevention.Claim;
+import me.ryanhamshire.GriefPrevention.ClaimPermission;
+import me.ryanhamshire.GriefPrevention.DataStore;
+import me.ryanhamshire.GriefPrevention.GriefPrevention;
 import org.bukkit.*;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Container;
@@ -30,6 +34,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BlockStateMeta;
 
 import java.util.*;
+import java.util.function.Supplier;
 
 public class CommandSearch extends PenCommand {
     private static final List<String> SEARCHABLE_ITEM_NAMES;
@@ -118,6 +123,7 @@ public class CommandSearch extends PenCommand {
 
         World world = location.getWorld();
         double searchRadiusBlocksSquared = Math.pow(searchRadiusBlocks, 2);
+        boolean isGriefPreventionInstalled = Bukkit.getPluginManager().isPluginEnabled("GriefPrevention");
         Scheduler.Task searchTask = Scheduler.runTimer(getPlugin().getSpigotPlugin(), location, new Runnable() {
             private final Set<Inventory> nearInventories = new HashSet<>();
             private final int searchedChunksPerTick = mainConfig.getSearchedChunksPerTick();
@@ -143,6 +149,7 @@ public class CommandSearch extends PenCommand {
                             if (blockState.getLocation().distanceSquared(location) > searchRadiusBlocksSquared) {
                                 continue;
                             }
+                            if (!canAccessContainer(player, blockState.getLocation())) continue;
                             nearInventories.add(((Container) blockState).getInventory());
                         }
                         for (Entity entity : chunk.getEntities()) {
@@ -151,6 +158,7 @@ public class CommandSearch extends PenCommand {
                             Location inventoryLocation = inventoryHolder.getInventory().getLocation();
                             if (inventoryLocation == null) continue;
                             if (inventoryLocation.distanceSquared(location) > searchRadiusBlocksSquared) continue;
+                            if (!canAccessContainer(player, inventoryLocation)) continue;
 
                             nearInventories.add(inventoryHolder.getInventory());
                         }
@@ -163,6 +171,37 @@ public class CommandSearch extends PenCommand {
             }
         }, 0L, 1L);
         this.searchTasks.put(player.getUniqueId(), searchTask);
+    }
+
+    /**
+     * Checks if a player can access a container at a given location.
+     *
+     * @param player   The player to check access for.
+     * @param location The location of the container.
+     * @return True if the player can access the container, false otherwise.
+     */
+    private boolean canAccessContainer(Player player, Location location) {
+        if (!Bukkit.getPluginManager().isPluginEnabled("GriefPrevention")) {
+            return true;
+        }
+        GriefPrevention griefPrevention = GriefPrevention.instance;
+
+        // Check if claims prevent theft is enabled in GriefPrevention config
+        if (!griefPrevention.config_claims_preventTheft) {
+            return true;
+        }
+        DataStore dataStore = griefPrevention.dataStore;
+        Claim cachedClaim = dataStore.getPlayerData(player.getUniqueId()).lastClaim;
+        Claim claim = dataStore.getClaimAt(location, false, cachedClaim);
+
+        // If there is no claim at the location, the player can access the container
+        if (claim == null) {
+            return true;
+        }
+        Supplier<String> noContainersReason = claim.checkPermission(player, ClaimPermission.Inventory, null);
+
+        // Return true if the player has permission, false otherwise
+        return noContainersReason == null;
     }
 
     /**
