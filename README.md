@@ -7,6 +7,7 @@ ItemFinder is a plugin created to ease the search for items within all near cont
 - Search for specific items stored in containers within a configured radius.
 - Highly configurable.
 - Folia support.
+- WorldGuard and GriefPrevention integration.
 
 ## Commands and Permissions
 
@@ -19,7 +20,7 @@ ItemFinder is a plugin created to ease the search for items within all near cont
 
 ## Configurations
 
-| **Configuration**            | **Description**                                                                                                                                    | **Example**                                     |
+| **Configuration**             | **Description**                                                                                                                                    | **Example**                                     |
 |-------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------|
 | item-blacklist                | List of items that can't be searched through the `/itemfinder search` command.                                                                     | item-blacklist: <br/>- GOLDEN_APPLE             |
 | world-blacklist               | List of worlds the `/itemfinder search` command can't be used in.                                                                                  | world-blacklist: <br/>- world_the_end           |
@@ -43,6 +44,7 @@ https://github.com/Eeshe/item-finder/assets/75171906/a7d31383-0312-4fd1-9b41-b72
 ## Soft Dependencies
 
 - [WorldGuard](https://dev.bukkit.org/projects/worldguard): Used to check for blacklisted search regions.
+- - [GriefPrevention](https://www.spigotmc.org/resources/griefprevention.1884/): Used to check for container access while searching for items.
 
 ## Installation
 
