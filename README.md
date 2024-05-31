@@ -44,7 +44,7 @@ https://github.com/Eeshe/item-finder/assets/75171906/a7d31383-0312-4fd1-9b41-b72
 ## Soft Dependencies
 
 - [WorldGuard](https://dev.bukkit.org/projects/worldguard): Used to check for blacklisted search regions.
-- - [GriefPrevention](https://www.spigotmc.org/resources/griefprevention.1884/): Used to check for container access while searching for items.
+- [GriefPrevention](https://www.spigotmc.org/resources/griefprevention.1884/): Used to check for container access while searching for items.
 
 ## Installation
 
