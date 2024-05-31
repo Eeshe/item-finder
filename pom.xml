@@ -6,7 +6,7 @@
 
     <groupId>me.eeshe</groupId>
     <artifactId>ItemFinder</artifactId>
-    <version>1.0</version>
+    <version>1.1.0</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -57,6 +57,13 @@
             <groupId>com.sk89q.worldguard</groupId>
             <artifactId>worldguard-bukkit</artifactId>
             <version>7.1.0-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.GriefPrevention</groupId>
+            <artifactId>GriefPrevention</artifactId>
+            <version>16.18.2</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
